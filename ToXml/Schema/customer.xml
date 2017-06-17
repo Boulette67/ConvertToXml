@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<customers>
+  <customer>
+    <lastname>Boulétreau</lastname>
+    <firstname>Jean Luc</firstname>
+    <birthday>05/05/1984</birthday>
+    <email>jeanluc.bouletreau@gmail.com.org</email>
+    <phone></phone>
+  </customer>
+  <customer>
+    <lastname>Federer</lastname>
+    <firstname>Diana</firstname>
+    <birthday>25/12/1987</birthday>
+    <email>diana.federer@gmail.com</email>
+    <phone></phone>
+  </customer>
+</customers>
