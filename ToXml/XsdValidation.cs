@@ -39,7 +39,7 @@ namespace ToXml
             switch (args.Severity)
             {
                 case XmlSeverityType.Error:
-                    Program.WriteColorLine($"{DateTime.Now.ToLongTimeString()} - Erreur: {args.Message}" , ConsoleColor.DarkRed);
+                    Program.WriteColorLine($"{DateTime.Now.ToLongTimeString()} - Erreur: {args.Message}", ConsoleColor.DarkRed);
                     break;
                 case XmlSeverityType.Warning:
                     Program.WriteColorLine($"{DateTime.Now.ToLongTimeString()} - Avertissement: {args.Message}", ConsoleColor.DarkYellow);
@@ -47,5 +47,24 @@ namespace ToXml
             }
         }
 
+        public static void GenerateXSD(string FileName,string SchemaName)
+        {
+            XmlReader reader = XmlReader.Create(FileName);
+            XmlSchemaSet schemaSet = new XmlSchemaSet();
+            XmlSchemaInference schema = new XmlSchemaInference();
+
+            schemaSet = schema.InferSchema(reader);
+
+            XmlWriter writer;
+            int count = 0;
+            foreach (XmlSchema s in schemaSet.Schemas())
+            {
+                writer = XmlWriter.Create(SchemaName);
+                s.Write(writer);
+                writer.Close();
+                Program.WriteColorLine($"{DateTime.Now.ToLongTimeString()} - Le schema {SchemaName} est créé.", ConsoleColor.DarkRed);
+            }
+            reader.Close();
+        }
     }
 }

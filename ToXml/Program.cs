@@ -18,7 +18,7 @@ namespace ToXml
             Program.WriteColorLine($"=== {DateTime.Now.ToLongDateString()} ===");
             Program.WriteColorLine($"{DateTime.Now.ToLongTimeString()} - Début du traitement");
 
-            string extension = string.Empty;
+            string inputExtension = string.Empty;
             string name = string.Empty;
             string inputFile = string.Empty;
             string outputPath = string.Empty;
@@ -52,7 +52,7 @@ namespace ToXml
                             throw new FileNotFoundException($"L'argument {inputFile} n'est pas reconnu comme un fichier valide.");
 
                         name = file.Name.Replace(file.Extension, "");
-                        extension = file.Extension;
+                        inputExtension = file.Extension;
                     }
 
                     if (arguments.ContainsKey("-o"))
@@ -66,15 +66,20 @@ namespace ToXml
                     if (arguments.ContainsKey("-s"))
                     {
                         schema = arguments["-s"];
-                        if (!(file = new FileInfo(schema)).Exists)
-                            throw new FileNotFoundException($"L'argument {schema} n'est pas reconnu comme un fichier valide.");
+                        //if (!(file = new FileInfo(schema)).Exists)
+                            //throw new FileNotFoundException($"L'argument {schema} n'est pas reconnu comme un fichier valide.");
                     }
+                    
                 }
 
-                switch (extension)
+                switch (inputExtension)
                 {
                     case ".csv":
-                        new CsvHelper().ConvertToXml(inputFile, schema, outputPath);
+                        CsvHelper h = new CsvHelper();
+                        h.ConvertToXml(inputFile, schema, outputPath);
+                        break;
+                    case ".xml":
+                        XsdValidation.GenerateXSD(inputFile, schema);
                         break;
                     default:
                         throw new ArgumentException($"L'argument {inputFile} n'est pas reconnu comme un fichier valide.");
