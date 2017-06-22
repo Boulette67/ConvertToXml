@@ -20,7 +20,7 @@ namespace ToXml.Csv
 
             name = file.Name.Replace(file.Extension, "");
 
-            XElement xml = new XElement(name + "s");
+            XElement xml = new XElement("items");
             doc = new XDocument(xml);
 
             using (StreamReader sr = file.OpenText())
@@ -36,7 +36,7 @@ namespace ToXml.Csv
                     if (firstLine.Length != currLine.Length)
                         throw new Exception($"Ligne {compteur} : Le nombre de colonnes ne correspond pas à celui de l'entête.");
 
-                    XElement item = new XElement(name);
+                    XElement item = new XElement("item");
                     xml.Add(item);
                     for (int i = 0; i < firstLine.Length; i++)
                     {
